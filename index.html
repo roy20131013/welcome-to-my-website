@@ -2,113 +2,75 @@
 <html lang="ko">
 <head>
   <meta charset="utf-8" />
-  <title>안컴의 공간</title>
+  <title>Welcome | 안컴의 공간</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="안컴의 3D 작품 및 프로젝트를 모아둔 공간입니다." />
-
-  <!-- 보안 기본값: 가능하면 서버 헤더로 설정 권장. 메타는 문서 단위에서 동작 -->
-  <!-- 필요한 외부 도메인만 화이트리스트 처리 -->
+  <meta name="description" content="안컴의 3D 작품과 엔트리 프로젝트 모음." />
+  <!-- 안전 기본값(CSP는 서버 헤더 권장) -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
-    base-uri 'self';
     object-src 'none';
+    base-uri 'self';
     frame-ancestors 'none';
-    form-action 'self';
     img-src 'self' https: data:;
     style-src 'self' 'unsafe-inline';
     script-src 'self';
     connect-src 'self';
-    frame-src https://playentry.org;
     upgrade-insecure-requests
   ">
-  <!-- 외부 전송 시 referrer 최소화 -->
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <!-- iOS/안드로이드 전화번호 자동링크 비활성화 등 -->
-  <meta name="format-detection" content="telephone=no, address=no, email=no" />
-  <!-- 다크모드 기본 지원을 위한 약식 스타일 -->
   <style>
     :root { color-scheme: light dark; }
-    html,body { margin:0; font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; }
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; }
     main { max-width: 960px; margin: 0 auto; padding: 24px; }
-    h1 { font-size: 1.5rem; margin: 0 0 12px; }
-    .actions { margin: 16px 0 24px; display:flex; gap:8px; flex-wrap:wrap; }
-    .btn {
-      appearance: none; border: 1px solid rgba(0,0,0,.15);
-      padding: 10px 14px; border-radius: 10px; cursor: pointer; background: transparent;
+    h1 { font-size: 1.5rem; margin: 0 0 16px; }
+    .grid { display:grid; gap:16px; grid-template-columns: repeat(auto-fit, minmax(280px,1fr)); }
+    .card {
+      border: 1px solid rgba(0,0,0,.12); border-radius: 12px; padding: 16px;
+      display:flex; flex-direction:column; gap:12px;
+      background: rgba(255,255,255,.6); backdrop-filter: saturate(1.2) blur(2px);
     }
-    .btn:focus-visible { outline: 2px solid #2684ff; outline-offset: 2px; }
-    .embed { margin: 20px 0; }
-    .caption { display:block; margin: 6px 0 0; font-style: normal; opacity:.8; }
-    dialog { border: none; border-radius: 12px; padding: 18px; box-shadow: 0 10px 30px rgba(0,0,0,.2); }
-    dialog form { margin-top: 12px; text-align: right; }
+    .card h2 { font-size: 1.1rem; margin:0; }
+    .btn {
+      display:inline-block; text-decoration:none; padding:10px 14px; border-radius:10px;
+      border:1px solid rgba(0,0,0,.15);
+    }
+    .btn:focus-visible { outline:2px solid #2684ff; outline-offset:2px; }
+    .hint { font-size:.9rem; opacity:.8; }
+    dialog { border:none; border-radius:12px; padding:18px; box-shadow:0 10px 30px rgba(0,0,0,.2); }
   </style>
 </head>
-
 <body>
   <main>
     <h1>안컴의 공간</h1>
 
-    <!-- 접근성 고려: dialog는 JS로 showModal() 호출 (인라인 이벤트 제거) -->
-    <dialog id="welcome">
-      <p>제 사이트에 오신 걸 환영합니다!</p>
-      <form method="dialog">
-        <button class="btn" value="ok" aria-label="확인">확인</button>
-      </form>
-      <noscript>자바스크립트가 비활성화되어 있어 모달 대신 본문을 통해 안내됩니다.</noscript>
+    <dialog id="welcome" open>
+      <p>제 사이트에 오신 걸 환영합니다! 엔트리 임베드는 현재 플랫폼 정책으로 직접 표시가 제한되어, 아래 버튼으로 이동하도록 제공합니다.</p>
+      <form method="dialog"><button class="btn" value="ok" aria-label="확인">확인</button></form>
     </dialog>
 
-    <div class="actions">
-      <!-- 새 창을 열지 않으므로 rel은 의미 없지만, target을 쓰는 경우 rel=noopener 필수 -->
-      <a class="btn" id="to-mypage"
-         href="https://playentry.org/profile/61e7e194ce4899001a8ebf2c/project?sort=created&amp;term=all&amp;isOpen=all"
-         target="_self" aria-label="마이페이지로 이동">마이페이지로 이동</a>
-    </div>
+    <section class="grid" aria-label="콘텐츠">
+      <article class="card">
+        <h2>안컴의 3D 작품</h2>
+        <p class="hint">엔트리에서 바로 감상하세요.</p>
+        <a class="btn" rel="noopener" target="_blank"
+           href="https://playentry.org/iframe/688dfb63b5eb577d39895cfe">엔트리에서 열기</a>
+      </article>
 
-    <!-- 임베드 1: 필요한 권한만 허용. 가능하면 same-origin 미허용 유지(보안상 안전) -->
-    <section class="embed" aria-labelledby="work3d">
-      <iframe
-        title="안컴의 3D 작품"
-        width="640" height="420"
-        src="https://playentry.org/iframe/688dfb63b5eb577d39895cfe"
-        loading="lazy"
-        referrerpolicy="strict-origin-when-cross-origin"
-        sandbox="allow-scripts allow-popups"
-        allow="fullscreen"
-        frameborder="0">
-      </iframe>
-      <em id="work3d" class="caption">안컴의 3D 작품</em>
-    </section>
+      <article class="card">
+        <h2>안컴 비공식 채팅방</h2>
+        <p class="hint">엔트리 페이지로 이동합니다.</p>
+        <a class="btn" rel="noopener" target="_blank"
+           href="https://playentry.org/iframe/688dfb63b5eb577d39895cfe">엔트리에서 열기</a>
+      </article>
 
-    <!-- 임베드 2: 동일한 소스 재사용 시에도 각각 샌드박스 설정 유지 -->
-    <section class="embed" aria-labelledby="chatroom">
-      <iframe
-        title="안컴이 만든 비공식 채팅방"
-        width="640" height="420"
-        src="https://playentry.org/iframe/688dfb63b5eb577d39895cfe"
-        loading="lazy"
-        referrerpolicy="strict-origin-when-cross-origin"
-        sandbox="allow-scripts allow-popups"
-        allow="fullscreen"
-        frameborder="0">
-      </iframe>
-      <em id="chatroom" class="caption">안컴이 만든 비공식 채팅방</em>
+      <article class="card">
+        <h2>마이페이지</h2>
+        <a class="btn" rel="noopener" target="_blank"
+           href="https://playentry.org/profile/61e7e194ce4899001a8ebf2c/project?sort=created&term=all&isOpen=all">
+          마이페이지로 이동
+        </a>
+      </article>
     </section>
   </main>
-
-  <!-- 인라인 스크립트 최소화 + 지연 실행 -->
-  <script>
-    'use strict';
-    // dialog 지원 시 모달로 표시
-    (function () {
-      const dlg = document.getElementById('welcome');
-      if (dlg && typeof dlg.showModal === 'function') {
-        // 페이지 로드 후 살짝 지연하여 표시(접근성/시각적 부담 완화)
-        window.addEventListener('DOMContentLoaded', () => {
-          setTimeout(() => { if (!dlg.open) dlg.showModal(); }, 300);
-        });
-      }
-    }());
-  </script>
 </body>
 </html>
-
